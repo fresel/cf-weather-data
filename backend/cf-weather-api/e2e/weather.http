@@ -1,0 +1,12 @@
+@api={{apiBaseUrl}}
+
+@longitude=18.063240
+@latitude=59.334591
+
+### Request current weather
+GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=current
+Accept: application/text
+
+### Request weather forecast
+GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=forecast
+Accept: application/text
