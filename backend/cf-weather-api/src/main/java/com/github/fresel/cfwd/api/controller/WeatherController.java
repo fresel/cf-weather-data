@@ -1,5 +1,7 @@
 package com.github.fresel.cfwd.api.controller;
 
+import com.github.fresel.cfwd.api.dto.WeatherResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +22,13 @@ public class WeatherController {
    * @param lat latitude
    * @param lon longitude
    * @param type type of weather data
-   * @return weather data json
+   * @return weather forecast data as json
    */
-  @GetMapping("/weather")
-  public String getWeather(@RequestParam String lat, @RequestParam String lon,
-      @RequestParam(defaultValue = "current") String type) {
+  @GetMapping(path = "/weather", produces = "application/json")
+  public ResponseEntity<WeatherResponse> getWeather(@RequestParam String lat,
+      @RequestParam String lon, @RequestParam(defaultValue = "current") String type) {
     // Call the weather API using the location parameter
-    return "Weather data for " + lat + ", " + lon + " with type " + type;
+    return ResponseEntity.ok(new WeatherResponse());
   }
 
 }
