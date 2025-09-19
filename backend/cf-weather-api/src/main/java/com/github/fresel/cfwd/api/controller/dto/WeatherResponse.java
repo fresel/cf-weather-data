@@ -1,4 +1,4 @@
-package com.github.fresel.cfwd.api.dto;
+package com.github.fresel.cfwd.api.controller.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.util.List;

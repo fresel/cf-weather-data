@@ -1,6 +1,6 @@
 package com.github.fresel.cfwd.api.controller;
 
-import com.github.fresel.cfwd.api.dto.WeatherResponse;
+import com.github.fresel.cfwd.api.controller.dto.WeatherResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
