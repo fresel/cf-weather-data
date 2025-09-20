@@ -1,0 +1,138 @@
+openapi: 3.0.1
+info:
+  title: CF Weather Data API
+  description: API for retrieving weather data.
+  version: 1.0.0
+  contact:
+    name: Fredrik Selander
+    email: fredrik.selander@example.com
+tags:
+  - name: Weather
+    description: Operations related to weather data
+paths:
+  /weather/current:
+    get:
+      summary: Get current weather data
+      tags:
+        - Weather
+      parameters:
+        - in: query
+          name: lat
+          schema:
+            type: string
+          required: true
+          description: Latitude of the location
+        - in: query
+          name: lon
+          schema:
+            type: string
+          required: true
+          description: Longitude of the location
+      responses:
+        "200":
+          description: Successful response with current weather data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentWeather"
+        "400":
+          description: Bad request due to missing or invalid parameters
+        "500":
+          description: Internal server error
+
+  /weather/forecast:
+    get:
+      summary: Get weather forecast data
+      tags:
+        - Weather
+      parameters:
+        - in: query
+          name: lat
+          schema:
+            type: string
+          required: true
+          description: Latitude of the location
+        - in: query
+          name: lon
+          schema:
+            type: string
+          required: true
+          description: Longitude of the location
+      responses:
+        "200":
+          description: Successful response with weather forecast data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Forecast"
+        "400":
+          description: Bad request due to missing or invalid parameters
+        "500":
+          description: Internal server error
+components:
+  schemas:
+    CurrentWeather:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the weather data
+        location:
+          type: string
+          description: Name of the location
+        temperature:
+          type: number
+          description: Current temperature in Celsius
+        main:
+          type: string
+          enum:
+            - "Clear"
+            - "Rain"
+            - "Clouds"
+            - "Snow"
+            - "Drizzle"
+            - "Thunderstorm"
+            - "Mist"
+          description: Main weather condition (e.g., Clear, Rain)
+        description:
+          type: string
+          description: Weather condition description
+    ForecastDay:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of the forecasted day
+        minTemperature:
+          type: number
+          description: Minimum temperature in Celsius for the day
+        maxTemperature:
+          type: number
+          description: Maximum temperature in Celsius for the day
+        main:
+          type: string
+          enum:
+            - "Clear"
+            - "Rain"
+            - "Clouds"
+            - "Snow"
+            - "Drizzle"
+            - "Thunderstorm"
+            - "Mist"
+          description: Main weather condition for the day (e.g., Clear, Rain)
+        description:
+          type: string
+          description: Weather condition description for the day
+    Forecast:
+      type: object
+      properties:
+        location:
+          type: string
+          description: Name of the location
+        forecast:
+          type: array
+          items:
+            $ref: "#/components/schemas/ForecastDay"
+      description: Forecast data for multiple days
