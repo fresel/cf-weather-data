@@ -41,4 +41,5 @@ public class WeatherResponse {
     private int pressure;
     private int humidity;
   }
+
 }

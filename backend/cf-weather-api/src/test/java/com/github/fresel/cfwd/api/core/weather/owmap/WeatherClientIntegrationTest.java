@@ -124,9 +124,9 @@ public class WeatherClientIntegrationTest {
     // then
     then(response).isNotNull();
     then(response.getCnt()).isGreaterThan(0);
-    then(response.getList()).isNotEmpty();
-    then(response.getList().get(0).getMain()).isNotNull();
-    then(response.getList().get(0).getWeather()).isNotEmpty();
+    then(response.getDays()).isNotEmpty();
+    then(response.getDays().get(0).getMain()).isNotNull();
+    then(response.getDays().get(0).getWeather()).isNotEmpty();
   }
 
   //

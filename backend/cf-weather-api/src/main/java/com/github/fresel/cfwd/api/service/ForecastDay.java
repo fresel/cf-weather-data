@@ -1,12 +1,14 @@
 package com.github.fresel.cfwd.api.service;
 
 import java.time.LocalDate;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Value;
 
 /**
  * Represents the weather forecast for a single day.
  */
-@Data
+@Builder
+@Value
 public class ForecastDay {
   private LocalDate date;
   private double minTemperature;
