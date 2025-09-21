@@ -1,5 +1,9 @@
 package com.github.fresel.cfwd.api.config;
 
+import com.github.fresel.cfwd.api.core.weather.owmap.WeatherClient;
+import com.github.fresel.cfwd.api.service.WeatherDataService;
+import com.github.fresel.cfwd.api.service.impl.OwDatatService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -11,4 +15,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServiceLayerConfig {
 
+  @Bean
+  WeatherClient weatherClient(ApiProperties apiProperties) {
+    return WeatherClient.builder().apiKey(apiProperties.getApiKey()).build();
+  }
+
+  @Bean
+  WeatherDataService weatherDataService(WeatherClient weatherClient) {
+    return new OwDatatService(weatherClient);
+  }
 }

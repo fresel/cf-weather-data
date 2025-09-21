@@ -14,5 +14,5 @@ public class WeatherDto {
   private String latitude;
   private String weather;
   private String description;
-  private String temperature;
+  private double temperature;
 }
