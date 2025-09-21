@@ -12,8 +12,16 @@ import lombok.NonNull;
 /**
  * Client for interacting with the OpenWeatherMap API.
  *
- * This client provides methods to fetch current weather data and weather forecasts based on
+ * This client provides methods to fetch current weather data and weather forecasts based on city
+ * names.
+ *
+ * This client also provides methods to fetch current weather data and weather forecasts based on
  * latitude and longitude.
+ *
+ * It uses Java's built-in HttpClient for making HTTP requests and Jackson for JSON parsing.
+ *
+ * An API key is required to use this client, which can be obtained by signing up on the
+ * OpenWeatherMap website.
  *
  * Note: Ensure to handle exceptions appropriately when using this client, as network issues or
  * invalid responses can occur.
@@ -21,10 +29,26 @@ import lombok.NonNull;
 @Builder
 public class WeatherClient {
 
-  private static final String BASE_URL = "https://api.openweathermap.org/data/2.5";
+  public static final String WEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5";
+
+  public static final String REVERSE_GEO_BASE_URL = "http://api.openweathermap.org/geo/1.0/reverse";
 
   @NonNull
   private final String apiKey;
+
+  /**
+   * Get current weather data for the specified city.
+   *
+   * @param city Name of the city.
+   * @return WeatherResponse containing current weather data.
+   */
+  public WeatherResponse getCurrentWeather(String city) {
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(java.net.URI
+            .create(String.format("%s/weather?q=%s&appid=%s", WEATHER_BASE_URL, city, apiKey)))
+        .GET().build();
+    return sendRequest(request, WeatherResponse.class);
+  }
 
   /**
    * Get current weather data for the specified latitude and longitude.
@@ -35,10 +59,24 @@ public class WeatherClient {
    */
   public WeatherResponse getCurrentWeather(String lat, String lon) {
     HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI
-            .create(String.format("%s/weather?lat=%s&lon=%s&appid=%s", BASE_URL, lat, lon, apiKey)))
+        .uri(java.net.URI.create(
+            String.format("%s/weather?lat=%s&lon=%s&appid=%s", WEATHER_BASE_URL, lat, lon, apiKey)))
         .GET().build();
     return sendRequest(request, WeatherResponse.class);
+  }
+
+  /**
+   * Get weather forecast data for the specified city.
+   *
+   * @param city Name of the city.
+   * @return ForecastResponse containing weather forecast data.
+   */
+  public ForecastResponse getWeatherForecast(String city) {
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(java.net.URI
+            .create(String.format("%s/forecast?q=%s&appid=%s", WEATHER_BASE_URL, city, apiKey)))
+        .GET().build();
+    return sendRequest(request, ForecastResponse.class);
   }
 
   /**
@@ -49,14 +87,31 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(String lat, String lon) {
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI.create(
-            String.format("%s/forecast?lat=%s&lon=%s&appid=%s", BASE_URL, lat, lon, apiKey)))
-        .GET().build();
+    HttpRequest request =
+        HttpRequest
+            .newBuilder().uri(java.net.URI.create(String
+                .format("%s/forecast?lat=%s&lon=%s&appid=%s", WEATHER_BASE_URL, lat, lon, apiKey)))
+            .GET().build();
     return sendRequest(request, ForecastResponse.class);
   }
 
-  private static <T> T sendRequest(HttpRequest request, Class<T> responseType) {
+  /**
+   * Get city name for the specified latitude and longitude using reverse geocoding.
+   *
+   * @param lat Latitude of the location.
+   * @param lon Longitude of the location.
+   * @return GeoCodingResponse containing city name and other details.
+   */
+  public GeoCodingResponse getReversedGeoCoding(double lat, double lon) {
+    HttpRequest request = HttpRequest.newBuilder().uri(java.net.URI.create(
+        String.format("%s?lat=%s&lon=%s&limit=1&appid=%s", REVERSE_GEO_BASE_URL, lat, lon, apiKey)))
+        .GET().build();
+    GeoCodingResponse[] responseArray = sendRequest(request, GeoCodingResponse[].class);
+    return responseArray[0];
+  }
+
+  // Helper method to send HTTP requests and parse responses
+  public static <T> T sendRequest(HttpRequest request, Class<T> responseType) {
     HttpClient client = httpClient();
     HttpResponse<String> response;
     try {
