@@ -1,0 +1,36 @@
+' Weather Client Sequence Diagram
+@startuml weather-client-sequence-diagram
+actor User
+participant "WeatherClient" as WC
+participant "OpenWeatherMap API" as OWM
+
+== Reversed GeoCoding Request ==
+User -> WC: Request city name for lat, lon
+WC -> OWM: HTTP GET /geo/1.0/reverse?lat={lat}&lon={lon}&limit=1&appid={API_KEY}
+OWM --> WC: JSON response with city details
+WC -> User: Return city name and details as object
+
+== Current Weather Request - City ==
+User -> WC: Request current weather for city
+WC -> OWM: HTTP GET /weather?q={city}&appid={API_KEY}
+OWM --> WC: JSON response with current weather data
+WC -> User: Return weather data as object
+
+== Current Weather Request - LatLon ==
+User -> WC: Request current weather for lat, lon
+WC -> OWM: HTTP GET /weather?lat={lat}&lon={lon}&appid={API_KEY}
+OWM --> WC: JSON response with current weather data
+WC -> User: Return weather data as object
+
+== Weather Forecast Request - City ==
+User -> WC: Request weather forecast for city
+WC -> OWM: HTTP GET /forecast?q={city}&appid={API_KEY}
+OWM --> WC: JSON response with forecast data
+WC -> User: Return forecast data as object
+
+== Weather Forecast Request - LatLon ==
+User -> WC: Request weather forecast for lat, lon
+WC -> OWM: HTTP GET /forecast?lat={lat}&lon={lon}&appid={API_KEY}
+OWM --> WC: JSON response with forecast data
+WC -> User: Return forecast data as object
+@enduml

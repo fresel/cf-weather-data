@@ -1,0 +1,55 @@
+' Weather Client Class Diagram
+@startuml weather-client-class-diagram
+package "Weather Client" {
+
+  class Weather {
+    +Main main
+    +String description
+    +String icon
+  }
+
+  class GeoCodingResponse {
+    +String name
+    +String country
+    +double lat
+    +double lon
+    +String state
+  }
+
+  class WeatherResponse {
+    +Coord coord
+    +List<Weather> weather
+    +Main main
+  }
+
+  class ForecastResponse {
+    +int cnt
+    +List<WeatherResponse> list
+  }
+
+  class WeatherClient {
+    +getCurrentWeather(lat: String, lon: String): WeatherResponse
+    +getWeatherForecast(lat: String, lon: String): ForecastResponse
+    +getCurrentWeather(city: String): WeatherResponse
+    +getWeatherForecast(city: String): ForecastResponse
+    +getReversedGeoCoding(lat: double, lon: double): GeoCodingResponse
+  }
+
+  class Main {
+    +double temp
+    +double feelsLike
+    +double tempMin
+    +double tempMax
+    +int pressure
+    +int humidity
+  }
+
+  WeatherResponse ..> Main
+  ForecastResponse ..> WeatherResponse
+  Weather ..> WeatherResponse
+
+  WeatherClient ..> WeatherResponse
+  WeatherClient ..> ForecastResponse
+  WeatherClient ..> GeoCodingResponse
+}
+@enduml
