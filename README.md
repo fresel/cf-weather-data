@@ -11,6 +11,7 @@ CF Weather Data is a service providing weather data for the provided coordinates
 - [Setup and Installation](#setup-and-installation)
 - [E2E Testing](#e2e-testing)
 
+
 ## Overview
 ![Overview](design/overview.png)
 
@@ -129,7 +130,7 @@ Prerequisites:
 To build and run the CF Weather Data API using Docker, follow these steps:
 1. Clone the repository:
     ```
-   git clone https://github.com/yourusername/cf-weather-data.git
+   git clone https://github.com/fresel/cf-weather-data.git
    ```
 2. Build the Docker image:
    ```
@@ -145,6 +146,42 @@ To build and run the CF Weather Data API using Docker, follow these steps:
 
     >You can change the port mapping `-p 8080:8080` to use a different host port if needed. Use the format `-p <host_port>:<container_port>`. E.g., `-p 9090:8080` to map host port 9090 to container port 8080. Then access the API at `http://localhost:9090/api/weather`.
 
+### Docker Compose
+Prerequisites:
+- Docker
+- Docker Compose
+- OpenWeatherMap API key
+
+To build and run the CF Weather Data API using Docker Compose, follow these steps:
+1. Clone the repository:
+    ```
+    git clone https://github.com/fresel/cf-weather-data.git
+    ```
+2. Navigate to the project directory:
+    ```
+    cd cf-weather-data
+    ```
+3. Create a `.env` file in the root directory and add your OpenWeatherMap API key:
+    ```
+    WEATHER_API_KEY=<your_api_key>
+    ```
+
+4. Alternatively, you can set the environment variable directly in your terminal session:
+    ```
+    export WEATHER_API_KEY=<your_api_key>
+    ```
+    ...or provide it inline when starting Docker Compose:
+    ```
+    WEATHER_API_KEY=<your_api_key> docker-compose up
+    ```
+5. Start the application using Docker Compose:
+    ```
+    docker-compose up
+    ```
+    >Replace `<your_api_key>` with your actual OpenWeatherMap API key.
+
+6. The API will be accessible at `http://localhost:8080/api/weather`.
+
 ### E2E Testing
 
 E2E testing can be done by using HttpYac.
@@ -156,3 +193,19 @@ See the httpyac [documentation](https://httpyac.github.io/) for more information
 2. Open the `backend/cf-weather-api/httpyac` folder in HttpYac.
 3. Update the `baseUrl` variable in `backend/cf-weather-api/e2e/local.env` if you are not running the API on `http://localhost:8080`.
 4. Run the requests in `backend/cf-weather-api/e2e/weather.http` to perform E2E testing.
+
+## Design
+### API Sequence Diagram
+![API Sequence Diagram](design/weather-api-sequence.png)
+
+###  Weather Client Class Diagram
+![Weather Client Class Diagram](design/weather-client-class-diagram.png)
+
+### Weather Client Sequence Diagram
+![Weather Client Sequence Diagram](design/weather-client-sequence-diagram.png)
+
+## Future Improvements
+- Add caching to reduce the number of requests to the external weather service?
+- Implement authentication and authorization for the API.
+- Add more detailed error handling and logging.
+- Use https for the API in the Docker container.
