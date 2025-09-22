@@ -82,7 +82,6 @@ If the request is invalid or if there is an issue with the external weather serv
 ```json
 {
     "timestamp": "2025-09-22T19:45:02",
-    "status": 400,
     "error": "Invalid type parameter",
     "description": "The type parameter must be either 'current' or 'forecast'."
 }
