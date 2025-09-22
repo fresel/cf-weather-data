@@ -87,6 +87,9 @@ If the request is invalid or if there is an issue with the external weather serv
 - OpenWeatherMap API
 
 ## Setup and Installation
+
+### Naven
+
 Prerequisites:
 - Java 21
 - Maven
@@ -107,3 +110,27 @@ To set up and run the CF Weather Data API locally, follow these steps:
    mvn spring-boot:run
    ```
 4. The API will be accessible at `http://localhost:8080/api/weather`.
+
+### Docker
+Prerequisites:
+- Docker
+- OpenWeatherMap API key
+
+To build and run the CF Weather Data API using Docker, follow these steps:
+1. Clone the repository:
+    ```
+   git clone https://github.com/yourusername/cf-weather-data.git
+   ```
+2. Build the Docker image:
+   ```
+   docker build -t my-weather-app .
+   ```
+3. Run the Docker container:
+   ```
+   docker run -d --rm  -p 8080:8080 -e WEATHER_API_KEY=<your_api_key> --name cf-weather my-weather-app
+   ```
+    >Replace `<your_api_key>` with your actual OpenWeatherMap API key.
+
+4. The API will be accessible at `http://localhost:8080/api/weather`.
+
+    >You can change the port mapping `-p 8080:8080` to use a different host port if needed. Use the format `-p <host_port>:<container_port>`. E.g., `-p 9090:8080` to map host port 9090 to container port 8080. Then access the API at `http://localhost:9090/api/weather`.
