@@ -2,6 +2,15 @@
 
 CF Weather Data is a service providing weather data for the provided coordinates via a REST API.
 
+## Table of Contents
+- [Overview](#overview)
+- [Functionality](#functionality)
+- [Usage](#usage)
+- [Error Handling](#error-handling)
+- [Technologies Used](#technologies-used)
+- [Setup and Installation](#setup-and-installation)
+- [E2E Testing](#e2e-testing)
+
 ## Overview
 ![Overview](design/overview.png)
 
@@ -112,6 +121,7 @@ To set up and run the CF Weather Data API locally, follow these steps:
 4. The API will be accessible at `http://localhost:8080/api/weather`.
 
 ### Docker
+
 Prerequisites:
 - Docker
 - OpenWeatherMap API key
@@ -134,3 +144,15 @@ To build and run the CF Weather Data API using Docker, follow these steps:
 4. The API will be accessible at `http://localhost:8080/api/weather`.
 
     >You can change the port mapping `-p 8080:8080` to use a different host port if needed. Use the format `-p <host_port>:<container_port>`. E.g., `-p 9090:8080` to map host port 9090 to container port 8080. Then access the API at `http://localhost:9090/api/weather`.
+
+### E2E Testing
+
+E2E testing can be done by using HttpYac.
+See the httpyac [documentation](https://httpyac.github.io/) for more information.
+
+> Note: You need the API Key set in the environment variable `WEATHER_API_KEY` and the API must be running to perform the tests.
+
+1. Install HttpYac from [here](https://httpyac.github.io/).
+2. Open the `backend/cf-weather-api/httpyac` folder in HttpYac.
+3. Update the `baseUrl` variable in `backend/cf-weather-api/e2e/local.env` if you are not running the API on `http://localhost:8080`.
+4. Run the requests in `backend/cf-weather-api/e2e/weather.http` to perform E2E testing.
