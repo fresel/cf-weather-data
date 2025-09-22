@@ -77,7 +77,7 @@ GET /api/weather?lat={latitude}&lon={longitude}&type=forecast
 ```
 ## Error Handling
 
-If the request is invalid or if there is an issue with the external weather service, the API will return an appropriate error message and status code.
+If the request is invalid or if there is an issue with the external weather service, the API will return an appropriate error message and description.
 
 ```json
 {
