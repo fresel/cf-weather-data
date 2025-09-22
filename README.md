@@ -87,6 +87,11 @@ If the request is invalid or if there is an issue with the external weather serv
 }
 ```
 
+## OpenAPI Documentation
+
+The API is documented using OpenAPI. You can access the OpenAPI documentation at:
+[OpenAPI Specification (YAML)](backend/cf-weather-api/src/main/resources/static/api-docs/openapi.yaml)
+
 ## Technologies Used
 - Java 21
 - Spring Boot
@@ -205,6 +210,7 @@ See the httpyac [documentation](https://httpyac.github.io/) for more information
 ![Weather Client Sequence Diagram](design/weather-client-sequence-diagram.png)
 
 ## Future Improvements
+- OpenAPI documentation and Swagger UI accessibility.
 - Add caching to reduce the number of requests to the external weather service?
 - Implement authentication and authorization for the API.
 - Add more detailed error handling and logging.
