@@ -88,7 +88,7 @@ If the request is invalid or if there is an issue with the external weather serv
 
 ## Setup and Installation
 
-### Naven
+### Maven
 
 Prerequisites:
 - Java 21
