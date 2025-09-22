@@ -2,6 +2,7 @@ package com.github.fresel.cfwd.api.core.weather.owmap;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import lombok.Data;
 
@@ -15,6 +16,8 @@ public class WeatherResponse {
   private List<Weather> weather;
 
   private Main main;
+
+  private long dt;
 
   @JsonIgnoreProperties(ignoreUnknown = true)
   @Data
@@ -36,7 +39,9 @@ public class WeatherResponse {
   public static class Main {
     private double temp;
     private double feelsLike;
+    @JsonProperty("temp_min")
     private double tempMin;
+    @JsonProperty("temp_max")
     private double tempMax;
     private int pressure;
     private int humidity;

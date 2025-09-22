@@ -12,7 +12,7 @@ import lombok.Value;
 @Builder
 @Value
 public class CurrentWeather {
-  private LocalDateTime timestamp;
+  private LocalDateTime dateTime;
   private String location;
   private double temperature;
   private String main;

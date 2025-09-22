@@ -10,5 +10,5 @@ public class ForecastResponse {
 
   private int cnt;
 
-  private List<WeatherResponse> days;
+  private List<WeatherResponse> list;
 }
