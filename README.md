@@ -1,6 +1,6 @@
 # CF Weather Data
 
-CF Weather Data is a service providing weather data for the provided coordinates via a REST API.
+CF Weather Data is a REST API service that provides weather information for specified coordinates. By supplying latitude and longitude, users can retrieve current weather conditions or a 5-day forecast for any location.
 
 ## Table of Contents
 - [Overview](#overview)
