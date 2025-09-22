@@ -1,0 +1,26 @@
+@startuml weather-api-sequence.puml
+actor User
+participant "Weather Controller" as WC
+participant "Weather Data Service" as WDS
+participant "Weather Client" as WDC
+
+== Current Weather Request ==
+User -> WC: Request current weather for lat, lon
+WC -> WDS: now(lat, lon)
+WDS -> WDC: getReversedGeoCoding(lat, lon)
+WDC --> WDS: GeoCodingResponse
+WDS -> WDC: getCurrentWeather(city)
+WDC --> WDS: WeatherResponse
+WDS --> WC: Weather data object
+WC -> User: Return weather data as JSON
+
+== Weather Forecast Request ==
+User -> WC: Request weather forecast for lat, lon
+WC -> WDS: getWeatherForecast(lat, lon)
+WDS -> WDC: getReversedGeoCoding(lat, lon)
+WDC --> WDS: GeoCodingResponse
+WDS -> WDC: getWeatherForecast(city)
+WDC --> WDS: ForecastResponse
+WDS --> WC: Forecast data object
+WC -> User: Return forecast data as JSON
+@enduml
