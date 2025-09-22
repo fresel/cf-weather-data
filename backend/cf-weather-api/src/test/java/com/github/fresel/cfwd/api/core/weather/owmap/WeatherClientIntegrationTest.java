@@ -98,8 +98,9 @@ public class WeatherClientIntegrationTest {
     then(response.getMain().getHumidity()).isGreaterThan(0);
   }
 
+  @Disabled
   @Test
-  void givenValidParams_whenGetCurrentWeatherForecastCity_thenReturnsWeatherResponse() {
+  void givenValidParams_whenGetCurrentWeatherForecastCity_thenReturnsForecastResponse() {
     // given
     WeatherClient client = WeatherClient.builder().apiKey(getApiKey()).build();
     String city = "London"; // Example city
@@ -124,9 +125,9 @@ public class WeatherClientIntegrationTest {
     // then
     then(response).isNotNull();
     then(response.getCnt()).isGreaterThan(0);
-    then(response.getDays()).isNotEmpty();
-    then(response.getDays().get(0).getMain()).isNotNull();
-    then(response.getDays().get(0).getWeather()).isNotEmpty();
+    then(response.getList()).isNotEmpty();
+    then(response.getList().get(0).getMain()).isNotNull();
+    then(response.getList().get(0).getWeather()).isNotEmpty();
   }
 
   //

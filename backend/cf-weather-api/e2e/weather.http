@@ -5,8 +5,20 @@
 
 ### Request current weather
 GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=current
-Accept: application/text
+Accept: application/json
 
 ### Request weather forecast
 GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=forecast
-Accept: application/text
+Accept: application/json
+
+### Request with invalid type
+GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=invalid
+Accept: application/json
+
+?? status == 400
+
+### Request with missing parameters
+GET {{api}}?lat={{latitude}}&type=current
+Accept: application/json
+
+?? status == 400

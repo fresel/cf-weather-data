@@ -44,8 +44,8 @@ public class WeatherClient {
    */
   public WeatherResponse getCurrentWeather(String city) {
     HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI
-            .create(String.format("%s/weather?q=%s&appid=%s", WEATHER_BASE_URL, city, apiKey)))
+        .uri(java.net.URI.create(
+            String.format("%s/weather?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey)))
         .GET().build();
     return sendRequest(request, WeatherResponse.class);
   }
@@ -59,8 +59,8 @@ public class WeatherClient {
    */
   public WeatherResponse getCurrentWeather(String lat, String lon) {
     HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI.create(
-            String.format("%s/weather?lat=%s&lon=%s&appid=%s", WEATHER_BASE_URL, lat, lon, apiKey)))
+        .uri(java.net.URI.create(String.format("%s/weather?lat=%s&lon=%s&appid=%s&units=metric",
+            WEATHER_BASE_URL, lat, lon, apiKey)))
         .GET().build();
     return sendRequest(request, WeatherResponse.class);
   }
@@ -72,9 +72,9 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(String city) {
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI
-            .create(String.format("%s/forecast?q=%s&appid=%s", WEATHER_BASE_URL, city, apiKey)))
+    HttpRequest request = HttpRequest
+        .newBuilder().uri(java.net.URI.create(String
+            .format("%s/forecast?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey)))
         .GET().build();
     return sendRequest(request, ForecastResponse.class);
   }
@@ -87,11 +87,10 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(String lat, String lon) {
-    HttpRequest request =
-        HttpRequest
-            .newBuilder().uri(java.net.URI.create(String
-                .format("%s/forecast?lat=%s&lon=%s&appid=%s", WEATHER_BASE_URL, lat, lon, apiKey)))
-            .GET().build();
+    HttpRequest request = HttpRequest.newBuilder()
+        .uri(java.net.URI.create(String.format("%s/forecast?lat=%s&lon=%s&appid=%s&units=metric",
+            WEATHER_BASE_URL, lat, lon, apiKey)))
+        .GET().build();
     return sendRequest(request, ForecastResponse.class);
   }
 
