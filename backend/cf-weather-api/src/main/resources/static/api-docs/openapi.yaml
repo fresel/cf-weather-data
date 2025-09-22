@@ -10,7 +10,7 @@ tags:
   - name: Weather
     description: Operations related to weather data
 paths:
-  /weather/current:
+  /api/weather/current:
     get:
       summary: Get current weather data
       tags:
@@ -40,7 +40,7 @@ paths:
         "500":
           description: Internal server error
 
-  /weather/forecast:
+  /api/weather/forecast:
     get:
       summary: Get weather forecast data
       tags:
@@ -73,8 +73,9 @@ components:
   schemas:
     CurrentWeather:
       type: object
+      description: Current weather data
       properties:
-        timestamp:
+        dateTime:
           type: string
           format: date-time
           description: Timestamp of the weather data
@@ -100,10 +101,11 @@ components:
           description: Weather condition description
     ForecastDay:
       type: object
+      description: Weather forecast for a single day
       properties:
-        date:
+        dateTime:
           type: string
-          format: date
+          format: date-time
           description: Date of the forecasted day
         minTemperature:
           type: number
@@ -135,4 +137,4 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ForecastDay"
-      description: Forecast data for multiple days
+      description: Forecast data for 5 days in 3-hour intervals
