@@ -147,9 +147,9 @@ To build and run the CF Weather Data API using Docker, follow these steps:
     >You can change the port mapping `-p 8080:8080` to use a different host port if needed. Use the format `-p <host_port>:<container_port>`. E.g., `-p 9090:8080` to map host port 9090 to container port 8080. Then access the API at `http://localhost:9090/api/weather`.
 
 ### Docker Compose
+
 Prerequisites:
 - Docker
-- Docker Compose
 - OpenWeatherMap API key
 
 To build and run the CF Weather Data API using Docker Compose, follow these steps:
@@ -182,7 +182,7 @@ To build and run the CF Weather Data API using Docker Compose, follow these step
 
 6. The API will be accessible at `http://localhost:8080/api/weather`.
 
-### E2E Testing
+## E2E Testing
 
 E2E testing can be done by using HttpYac.
 See the httpyac [documentation](https://httpyac.github.io/) for more information.
@@ -195,6 +195,7 @@ See the httpyac [documentation](https://httpyac.github.io/) for more information
 4. Run the requests in `backend/cf-weather-api/e2e/weather.http` to perform E2E testing.
 
 ## Design
+
 ### API Sequence Diagram
 ![API Sequence Diagram](design/weather-api-sequence.png)
 
