@@ -42,7 +42,7 @@ public class OwDataServiceTest {
   @AfterEach
   void tearDown() throws Exception {
     // Release mocks
-    if (autoCloseable == null) {
+    if (autoCloseable != null) {
       autoCloseable.close();
     }
   }
