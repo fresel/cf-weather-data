@@ -37,8 +37,16 @@ paths:
                 $ref: "#/components/schemas/CurrentWeather"
         "400":
           description: Bad request due to missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 
   /api/weather/forecast:
     get:
@@ -67,8 +75,16 @@ paths:
                 $ref: "#/components/schemas/Forecast"
         "400":
           description: Bad request due to missing or invalid parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
         "500":
           description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     CurrentWeather:
@@ -138,3 +154,16 @@ components:
           items:
             $ref: "#/components/schemas/ForecastDay"
       description: Forecast data for 5 days in 3-hour intervals
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Time when the error occurred
+        error:
+          type: string
+          description: Short description of the error
+        message:
+          type: string
+          description: Detailed error message
