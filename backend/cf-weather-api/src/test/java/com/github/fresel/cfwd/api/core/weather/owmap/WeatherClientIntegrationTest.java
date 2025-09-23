@@ -73,16 +73,16 @@ public class WeatherClientIntegrationTest {
   void givenValidParams_whenGetCurrentWeatherLatLon_thenReturnsWeatherResponse() {
     // given
     WeatherClient client = WeatherClient.builder().apiKey(getApiKey()).build();
-    String lat = "37.7749"; // Example latitude
-    String lon = "-122.4194"; // Example longitude
+    Double lat = 37.7749; // Example latitude
+    Double lon = -122.4194; // Example longitude
     // when
     WeatherResponse response = client.getCurrentWeather(lat, lon);
     // then
     then(response).isNotNull();
 
     then(response.getCoord()).isNotNull();
-    then(response.getCoord().getLat()).isEqualTo(Double.parseDouble(lat));
-    then(response.getCoord().getLon()).isEqualTo(Double.parseDouble(lon));
+    then(response.getCoord().getLat()).isEqualTo(lat);
+    then(response.getCoord().getLon()).isEqualTo(lon);
 
     then(response.getWeather()).isNotEmpty();
     then(response.getWeather().get(0).getMain()).isNotBlank();
@@ -98,7 +98,6 @@ public class WeatherClientIntegrationTest {
     then(response.getMain().getHumidity()).isGreaterThan(0);
   }
 
-  @Disabled
   @Test
   void givenValidParams_whenGetCurrentWeatherForecastCity_thenReturnsForecastResponse() {
     // given
@@ -118,8 +117,8 @@ public class WeatherClientIntegrationTest {
   void givenValidParams_whenGetWeatherForecastLatLon_thenReturnsWeatherResponse() {
     // given
     WeatherClient client = WeatherClient.builder().apiKey(getApiKey()).build();
-    String lat = "37.7749"; // Example latitude
-    String lon = "-122.4194"; // Example longitude
+    Double lat = 37.7749; // Example latitude
+    Double lon = -122.4194; // Example longitude
     // when
     ForecastResponse response = client.getWeatherForecast(lat, lon);
     // then

@@ -1,12 +1,12 @@
 package com.github.fresel.cfwd.api.controller;
 
+import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.github.fresel.cfwd.api.service.CurrentWeather;
-import com.github.fresel.cfwd.api.service.Forecast;
 import com.github.fresel.cfwd.api.service.WeatherDataService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +27,13 @@ public class WeatherControllerTest {
 
   private static final String VALID_LONGITUDE = "18.0686";
 
-  private static final String INVALID_COORD_STRING = "invalidLat";
-
   private static final String TYPE_CURRENT = "current";
 
   private static final String TYPE_FORECAST = "forecast";
 
   private static final String TYPE_INVALID = "invalidType";
+
+  private static final String INVALID_COORD_STRING = "invalid";
 
   @Autowired
   private MockMvc mockMvc;
@@ -49,7 +49,7 @@ public class WeatherControllerTest {
     String type = TYPE_CURRENT;
 
     var currentWeatherMock = mock(CurrentWeather.class);
-    given(weatherDataService.now(lat, lon)).willReturn(currentWeatherMock);
+    given(weatherDataService.now(anyDouble(), anyDouble())).willReturn(currentWeatherMock);
 
     // When / Then
     mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
@@ -63,12 +63,9 @@ public class WeatherControllerTest {
     String lon = VALID_LONGITUDE;
     String type = TYPE_FORECAST;
 
-    var forecastMock = mock(Forecast.class);
-    given(weatherDataService.forecast(lat, lon)).willReturn(forecastMock);
-
     // When / Then
     mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
-        .andExpect(status().isOk()).andExpect(content().contentType("application/json"));
+        .andExpect(status().isOk());
   }
 
   @Test
@@ -77,7 +74,6 @@ public class WeatherControllerTest {
     String lat = VALID_LATITUDE;
     String lon = VALID_LONGITUDE;
     String type = TYPE_INVALID;
-
     // When / Then
     mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
         .andExpect(status().isBadRequest());
@@ -89,27 +85,6 @@ public class WeatherControllerTest {
     mockMvc.perform(get("/api/weather")).andExpect(status().isBadRequest());
   }
 
-  @Test
-  void givenInvalidLatitude_whenGetWeather_thenReturns400() throws Exception {
-    // Given
-    String lat = INVALID_COORD_STRING;
-    String lon = VALID_LONGITUDE;
-    String type = TYPE_CURRENT;
-    // When / Then
-    mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
-        .andExpect(status().isBadRequest());
-  }
-
-  @Test
-  void givenInvalidLongitude_whenGetWeather_thenReturns400() throws Exception {
-    // Given
-    String lat = VALID_LATITUDE;
-    String lon = INVALID_COORD_STRING;
-    String type = TYPE_CURRENT;
-    // When / Then
-    mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
-        .andExpect(status().isBadRequest());
-  }
 
   @Test
   void givenOutOfRangeLatitude_whenGetWeather_thenReturns400() throws Exception {

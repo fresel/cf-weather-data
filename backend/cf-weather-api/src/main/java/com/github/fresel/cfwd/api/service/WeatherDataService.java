@@ -12,7 +12,7 @@ public interface WeatherDataService {
    * @param lon Longitude of the location.
    * @return CurrentWeather object containing current weather details.
    */
-  CurrentWeather now(String lat, String lon);
+  CurrentWeather now(Double lat, Double lon);
 
   /**
    * Fetches the weather forecast for the specified latitude and longitude.
@@ -21,6 +21,6 @@ public interface WeatherDataService {
    * @param lon Longitude of the location.
    * @return Forecast object containing weather forecast details.
    */
-  Forecast forecast(String lat, String lon);
+  Forecast forecast(Double lat, Double lon);
 
 }
