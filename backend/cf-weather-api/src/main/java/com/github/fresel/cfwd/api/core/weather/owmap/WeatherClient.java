@@ -57,7 +57,7 @@ public class WeatherClient {
    * @param lon Longitude of the location.
    * @return WeatherResponse containing current weather data.
    */
-  public WeatherResponse getCurrentWeather(String lat, String lon) {
+  public WeatherResponse getCurrentWeather(Double lat, Double lon) {
     HttpRequest request = HttpRequest.newBuilder()
         .uri(java.net.URI.create(String.format("%s/weather?lat=%s&lon=%s&appid=%s&units=metric",
             WEATHER_BASE_URL, lat, lon, apiKey)))
@@ -86,7 +86,7 @@ public class WeatherClient {
    * @param lon Longitude of the location.
    * @return ForecastResponse containing weather forecast data.
    */
-  public ForecastResponse getWeatherForecast(String lat, String lon) {
+  public ForecastResponse getWeatherForecast(Double lat, Double lon) {
     HttpRequest request = HttpRequest.newBuilder()
         .uri(java.net.URI.create(String.format("%s/forecast?lat=%s&lon=%s&appid=%s&units=metric",
             WEATHER_BASE_URL, lat, lon, apiKey)))
@@ -101,7 +101,7 @@ public class WeatherClient {
    * @param lon Longitude of the location.
    * @return GeoCodingResponse containing city name and other details.
    */
-  public GeoCodingResponse getReversedGeoCoding(double lat, double lon) {
+  public GeoCodingResponse getReversedGeoCoding(Double lat, Double lon) {
     HttpRequest request = HttpRequest.newBuilder().uri(java.net.URI.create(
         String.format("%s?lat=%s&lon=%s&limit=1&appid=%s", REVERSE_GEO_BASE_URL, lat, lon, apiKey)))
         .GET().build();

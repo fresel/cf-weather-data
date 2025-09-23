@@ -22,8 +22,7 @@ public class CoordinateValidationTest {
     double longitude = VALID_LONGITUDE;
 
     // when
-    Throwable thrown =
-        catchThrowable(() -> CoordinateValidation.validateCoordinates(latitude, longitude));
+    Throwable thrown = catchThrowable(() -> CoordinateValidation.validate(latitude, longitude));
 
     // then
     then(thrown).isNull();
@@ -33,11 +32,9 @@ public class CoordinateValidationTest {
   void givenInvalidLatitude_whenValidateCoordinates_thenThrowsException() {
     // given
     double invalidLatitude = INVALID_LATITUDE;
-    double longitude = VALID_LONGITUDE;
 
     // when
-    Throwable thrown =
-        catchThrowable(() -> CoordinateValidation.validateCoordinates(invalidLatitude, longitude));
+    Throwable thrown = catchThrowable(() -> CoordinateValidation.validateLatitude(invalidLatitude));
 
     // then
     then(thrown).isInstanceOf(CoordinateValidationException.class)
@@ -47,12 +44,11 @@ public class CoordinateValidationTest {
   @Test
   void givenInvalidLongitude_whenValidateCoordinates_thenThrowsException() {
     // given
-    double latitude = VALID_LATITUDE;
     double invalidLongitude = INVALID_LONGITUDE;
 
     // when
     Throwable thrown =
-        catchThrowable(() -> CoordinateValidation.validateCoordinates(latitude, invalidLongitude));
+        catchThrowable(() -> CoordinateValidation.validateLongitude(invalidLongitude));
 
     // then
     then(thrown).isInstanceOf(CoordinateValidationException.class)

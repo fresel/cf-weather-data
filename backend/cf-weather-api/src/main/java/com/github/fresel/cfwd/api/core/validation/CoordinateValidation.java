@@ -54,7 +54,7 @@ public class CoordinateValidation {
    * @param longitude the longitude to validate
    * @throws CoordinateValidationException if the coordinates are out of range
    */
-  public static void validateCoordinates(double latitude, double longitude) {
+  public static void validate(double latitude, double longitude) {
     validateLatitude(latitude);
     validateLongitude(longitude);
   }

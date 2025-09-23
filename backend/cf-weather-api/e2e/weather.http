@@ -7,9 +7,13 @@
 GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=current
 Accept: application/json
 
+?? status == 200
+
 ### Request weather forecast
 GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=forecast
 Accept: application/json
+
+?? status == 200
 
 ### Request with invalid type
 GET {{api}}?lat={{latitude}}&lon={{longitude}}&type=invalid

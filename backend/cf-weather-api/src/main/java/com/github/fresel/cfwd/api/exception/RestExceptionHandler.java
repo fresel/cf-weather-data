@@ -1,5 +1,6 @@
 package com.github.fresel.cfwd.api.exception;
 
+import com.github.fresel.cfwd.api.core.validation.CoordinateValidationException;
 import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<WeatherErrorResponse> handleInvalidRequestDataException(
       InvalidRequestDataException ex) {
     log.error("Invalid request data: ", ex);
+    return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+  }
+
+  @ExceptionHandler(CoordinateValidationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  public ResponseEntity<WeatherErrorResponse> handleCoordinateValidationException(
+      CoordinateValidationException ex) {
+    log.error("Coordinate validation error: ", ex);
     return createErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
   }
 
