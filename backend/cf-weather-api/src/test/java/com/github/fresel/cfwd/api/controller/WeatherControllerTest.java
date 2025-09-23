@@ -19,6 +19,22 @@ import org.springframework.test.web.servlet.MockMvc;
 @ActiveProfiles("test")
 public class WeatherControllerTest {
 
+  private static final String OUT_OF_RANGE_LATITUDE = "100.0";
+
+  private static final String OUT_OF_RANGE_LONGITUDE = "200.0";
+
+  private static final String VALID_LATITUDE = "59.3293";
+
+  private static final String VALID_LONGITUDE = "18.0686";
+
+  private static final String INVALID_COORD_STRING = "invalidLat";
+
+  private static final String TYPE_CURRENT = "current";
+
+  private static final String TYPE_FORECAST = "forecast";
+
+  private static final String TYPE_INVALID = "invalidType";
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -28,9 +44,9 @@ public class WeatherControllerTest {
   @Test
   void givenValidRequest_whenGetCurrentWeather_thenReturns200() throws Exception {
     // Given
-    String lat = "59.3293";
-    String lon = "18.0686";
-    String type = "current";
+    String lat = VALID_LATITUDE;
+    String lon = VALID_LONGITUDE;
+    String type = TYPE_CURRENT;
 
     var currentWeatherMock = mock(CurrentWeather.class);
     given(weatherDataService.now(lat, lon)).willReturn(currentWeatherMock);
@@ -43,9 +59,9 @@ public class WeatherControllerTest {
   @Test
   void givenValidRequest_whenGetForecastWeather_thenReturns200() throws Exception {
     // Given
-    String lat = "59.3293";
-    String lon = "18.0686";
-    String type = "forecast";
+    String lat = VALID_LATITUDE;
+    String lon = VALID_LONGITUDE;
+    String type = TYPE_FORECAST;
 
     var forecastMock = mock(Forecast.class);
     given(weatherDataService.forecast(lat, lon)).willReturn(forecastMock);
@@ -58,9 +74,9 @@ public class WeatherControllerTest {
   @Test
   void givenInvalidType_whenGetWeather_thenReturns400() throws Exception {
     // Given
-    String lat = "59.3293";
-    String lon = "18.0686";
-    String type = "invalidType";
+    String lat = VALID_LATITUDE;
+    String lon = VALID_LONGITUDE;
+    String type = TYPE_INVALID;
 
     // When / Then
     mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
@@ -74,15 +90,46 @@ public class WeatherControllerTest {
   }
 
   @Test
-  void givenInvalidLatLon_whenGetWeather_thenReturns500() throws Exception {
+  void givenInvalidLatitude_whenGetWeather_thenReturns400() throws Exception {
     // Given
-    String lat = "invalidLat";
-    String lon = "invalidLon";
-    String type = "current";
-    given(weatherDataService.now(lat, lon))
-        .willThrow(new IllegalArgumentException("Invalid lat/lon"));
+    String lat = INVALID_COORD_STRING;
+    String lon = VALID_LONGITUDE;
+    String type = TYPE_CURRENT;
     // When / Then
     mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
-        .andExpect(status().isInternalServerError());
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenInvalidLongitude_whenGetWeather_thenReturns400() throws Exception {
+    // Given
+    String lat = VALID_LATITUDE;
+    String lon = INVALID_COORD_STRING;
+    String type = TYPE_CURRENT;
+    // When / Then
+    mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenOutOfRangeLatitude_whenGetWeather_thenReturns400() throws Exception {
+    // Given
+    String lat = OUT_OF_RANGE_LATITUDE;
+    String lon = VALID_LONGITUDE;
+    String type = TYPE_CURRENT;
+    // When / Then
+    mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
+        .andExpect(status().isBadRequest());
+  }
+
+  @Test
+  void givenOutOfRangeLongitude_whenGetWeather_thenReturns400() throws Exception {
+    // Given
+    String lat = VALID_LATITUDE;
+    String lon = OUT_OF_RANGE_LONGITUDE;
+    String type = TYPE_CURRENT;
+    // When / Then
+    mockMvc.perform(get("/api/weather").param("lat", lat).param("lon", lon).param("type", type))
+        .andExpect(status().isBadRequest());
   }
 }

@@ -36,7 +36,7 @@ public class WeatherController {
   @GetMapping(path = "/weather", produces = "application/json")
   public ResponseEntity<?> getWeather(@RequestParam String lat, @RequestParam String lon,
       @RequestParam(defaultValue = "current") String type) {
-    // Call the weather data service using the location parameter
+    validateCoordinates(lat, lon);
     switch (type.toLowerCase()) {
       case "current":
         return ResponseEntity.ok(weatherDataService.now(lat, lon));
@@ -45,6 +45,19 @@ public class WeatherController {
       default:
         throw new InvalidRequestDataException(
             "'%s' is not a valid type. Use 'current' or 'forecast'.".formatted(type));
+    }
+  }
+
+  private void validateCoordinates(String lat, String lon) {
+    try {
+      double latitude = Double.parseDouble(lat);
+      double longitude = Double.parseDouble(lon);
+      if (latitude < -90 || latitude > 90 || longitude < -180 || longitude > 180) {
+        throw new InvalidRequestDataException(
+            "Latitude must be between -90 and 90 and longitude between -180 and 180.");
+      }
+    } catch (NumberFormatException e) {
+      throw new InvalidRequestDataException("Latitude and longitude must be valid numbers.", e);
     }
   }
 
