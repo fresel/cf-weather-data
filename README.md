@@ -181,7 +181,7 @@ To build and run the CF Weather Data API using Docker Compose, follow these step
     ```
 5. Start the application using Docker Compose:
     ```
-    docker-compose up
+    docker compose up
     ```
     >Replace `<your_api_key>` with your actual OpenWeatherMap API key.
 
