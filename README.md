@@ -118,7 +118,7 @@ To set up and run the CF Weather Data API locally, follow these steps:
     ```
 2. Navigate to the project directory:
    ```
-   cd cf-weather-data/backend/cf-weather-data
+   cd cf-weather-data/backend/cf-weather-api
    ```
 3. Run the project using Maven:
    ```
