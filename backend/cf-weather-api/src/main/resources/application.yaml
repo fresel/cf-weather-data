@@ -1,6 +1,12 @@
 spring:
   application:
     name: cf-weather-api
+info:
+  app:
+    name: @project.artifactId@
+    version: @project.version@
+  description: CF Weather Data Backend API
+  title: CF Weather Data API
 external:
   api:
     weather:

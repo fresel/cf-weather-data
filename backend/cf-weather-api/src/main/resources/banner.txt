@@ -1,0 +1,12 @@
+${AnsiColor.BRIGHT_CYAN}
+  __  ___   _ _ _  ___   _  ___  _ _  ___  ___    _   ___ _
+ / _|| __| | | | || __| / \|_ _|| U || __|| o \  / \ | o \ |
+( (_ | _|  | V V || _| | o || | |   || _| |   / | o ||  _/ |
+ \__||_|    \_n_/ |___||_n_||_| |_n_||___||_|\\ |_n_||_| |_|
+
+${AnsiColor.DEFAULT}
+${AnsiColor.BRIGHT_WHITE}Artifact: ${AnsiColor.GREEN}${info.app.name} ${AnsiColor.BRIGHT_WHITE}Version: ${AnsiColor.GREEN}${info.app.version}
+
+${AnsiColor.BRIGHT_BLACK}
+Powered by Spring Boot ${spring-boot.version}
+
