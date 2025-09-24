@@ -17,7 +17,7 @@ public class ServiceLayerConfig {
 
   @Bean
   WeatherClient weatherClient(ApiProperties apiProperties) {
-    return WeatherClient.builder().apiKey(apiProperties.getApiKey()).build();
+    return WeatherClient.builder().apiKey(apiProperties.apiKey()).build();
   }
 
   @Bean

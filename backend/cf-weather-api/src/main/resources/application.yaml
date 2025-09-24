@@ -1,6 +1,9 @@
 spring:
   application:
     name: cf-weather-api
+  output:
+    ansi:
+      enabled: ALWAYS
 info:
   app:
     name: @project.artifactId@
@@ -10,5 +13,4 @@ info:
 external:
   api:
     weather:
-      base-url: https://api.openweathermap.org/data/2.5
-      api-key: ${WEATHER_API_KEY}
+      api-key: ${WEATHER_API_KEY:}
