@@ -13,6 +13,8 @@ CF Weather Data is a REST API service that provides weather information for spec
 - [Technologies Used](#technologies-used)
 - [Setup and Installation](#setup-and-installation)
 - [E2E Testing](#e2e-testing)
+- [Design](#design)
+- [Future Improvements](#future-improvements)
 
 
 ## Overview
