@@ -28,11 +28,11 @@ package "Weather Client" {
   }
 
   class WeatherClient {
-    +getCurrentWeather(lat: String, lon: String): WeatherResponse
-    +getWeatherForecast(lat: String, lon: String): ForecastResponse
+    +getCurrentWeather(lat: Double, lon: Double): WeatherResponse
+    +getWeatherForecast(lat: Double, lon: Double): ForecastResponse
     +getCurrentWeather(city: String): WeatherResponse
     +getWeatherForecast(city: String): ForecastResponse
-    +getReversedGeoCoding(lat: double, lon: double): GeoCodingResponse
+    +getReversedGeoCoding(lat: Double, lon: Double): GeoCodingResponse
   }
 
   class Main {
