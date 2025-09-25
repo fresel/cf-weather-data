@@ -7,6 +7,13 @@ on:
   # release:
   #   types: [created]
   workflow_dispatch:
+    inputs:
+      # Input to specify the version to be built and published
+      version:
+        description: "Version to build and publish"
+        required: true
+        default: "1.0.2-SNAPSHOT"
+        type: string
 jobs:
   build:
     runs-on: ubuntu-latest
