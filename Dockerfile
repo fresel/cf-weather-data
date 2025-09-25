@@ -9,6 +9,6 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY --from=build /app/target/cf-weather-api-1.0.1.jar .
-ENTRYPOINT ["java", "-jar", "cf-weather-api-1.0.1.jar"]
+COPY --from=build /app/target/cf-weather-api-1.0.2-SNAPSHOT.jar .
+ENTRYPOINT ["java", "-jar", "cf-weather-api-1.0.2-SNAPSHOT.jar"]
 EXPOSE 8080
