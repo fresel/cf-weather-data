@@ -34,7 +34,7 @@ jobs:
       - name: Build with Maven
         env:
           WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
-        run: mvn -B package --file backend/cf-weather-api/pom.xml
+        run: WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }} mvn -B package --file backend/cf-weather-api/pom.xml
 
       - name: Publish to GitHub Packages Apache Maven
         run: mvn deploy -s $GITHUB_WORKSPACE/settings.xml
