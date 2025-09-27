@@ -2,7 +2,9 @@ package com.github.fresel.cfwd.api.core.weather.owmap;
 
 import static org.assertj.core.api.BDDAssertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+
 import java.net.http.HttpRequest;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,9 +17,12 @@ import org.junit.jupiter.api.Test;
  */
 public class WeatherClientIntegrationTest {
 
+  WeatherClient client;
+
   @BeforeEach
   void setup() {
-    // Initialize any required resources or mock objects here
+    String apiKey = System.getenv("WEATHER_API_KEY_JUNIT");
+    client = WeatherClient.builder().apiKey(apiKey).build();
   }
 
   @Test
@@ -158,7 +163,7 @@ public class WeatherClientIntegrationTest {
             "%s/weather?q=London&appid=%s".formatted(WeatherClient.WEATHER_BASE_URL, getApiKey())))
         .GET().build();
     // when
-    WeatherResponse response = WeatherClient.sendRequest(request, WeatherResponse.class);
+    WeatherResponse response = client.sendRequest(request, WeatherResponse.class);
     // then
     then(response).isNotNull();
   }
@@ -170,8 +175,7 @@ public class WeatherClientIntegrationTest {
         "%s/weather?q=InvalidCity&appid=%s".formatted(WeatherClient.WEATHER_BASE_URL, getApiKey())))
         .GET().build();
     // when
-    Throwable thrown =
-        catchThrowable(() -> WeatherClient.sendRequest(request, WeatherResponse.class));
+    Throwable thrown = catchThrowable(() -> client.sendRequest(request, WeatherResponse.class));
     // then
     then(thrown).isInstanceOf(WeatherClientException.class);
     then(thrown).hasMessageContaining("Request failed");
@@ -185,7 +189,7 @@ public class WeatherClientIntegrationTest {
             "%s/weather?q=London&appid=%s".formatted(WeatherClient.WEATHER_BASE_URL, getApiKey())))
         .GET().build();
     // when
-    Throwable thrown = catchThrowable(() -> WeatherClient.sendRequest(request, String.class));
+    Throwable thrown = catchThrowable(() -> client.sendRequest(request, String.class));
     // then
     then(thrown).isInstanceOf(WeatherClientException.class);
     then(thrown).hasMessageContaining("Error parsing response");
@@ -194,11 +198,9 @@ public class WeatherClientIntegrationTest {
   @Test
   void givenClientThrowsException_whenSendRequest_thenThrowsWeatherClientException() {
     // given
-    HttpRequest request =
-        HttpRequest.newBuilder().uri(java.net.URI.create("http://invalid-url")).GET().build();
+    HttpRequest request = HttpRequest.newBuilder().uri(java.net.URI.create("http://invalid-url")).GET().build();
     // when
-    Throwable thrown =
-        catchThrowable(() -> WeatherClient.sendRequest(request, WeatherResponse.class));
+    Throwable thrown = catchThrowable(() -> client.sendRequest(request, WeatherResponse.class));
     // then
     then(thrown).isInstanceOf(WeatherClientException.class);
     then(thrown).hasMessageContaining("Error sending request");
@@ -207,21 +209,24 @@ public class WeatherClientIntegrationTest {
   @Disabled
   @Test
   void givenNetworkIssue_whenGetCurrentWeather_thenThrowsException() {
-    // This test would require a way to simulate network issues, which is not implemented here.
+    // This test would require a way to simulate network issues, which is not
+    // implemented here.
     // In a real-world scenario, you might use a mocking library to simulate this.
   }
 
   @Disabled
   @Test
   void givenNetworkIssue_whenGetWeatherForecast_thenThrowsException() {
-    // This test would require a way to simulate network issues, which is not implemented here.
+    // This test would require a way to simulate network issues, which is not
+    // implemented here.
     // In a real-world scenario, you might use a mocking library to simulate this.
   }
 
   @Disabled
   @Test
   void givenMalformedResponse_whenGetCurrentWeather_thenThrowsException() {
-    // This test would require a way to simulate a malformed response, which is not implemented
+    // This test would require a way to simulate a malformed response, which is not
+    // implemented
     // here.
     // In a real-world scenario, you might use a mocking library to simulate this.
   }
@@ -229,7 +234,8 @@ public class WeatherClientIntegrationTest {
   @Disabled
   @Test
   void givenMalformedResponse_whenGetWeatherForecast_thenThrowsException() {
-    // This test would require a way to simulate a malformed response, which is not implemented
+    // This test would require a way to simulate a malformed response, which is not
+    // implemented
     // here.
     // In a real-world scenario, you might use a mocking library to simulate this.
   }

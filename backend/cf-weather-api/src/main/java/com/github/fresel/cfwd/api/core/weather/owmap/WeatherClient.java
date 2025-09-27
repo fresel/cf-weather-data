@@ -40,6 +40,8 @@ public class WeatherClient {
 
   public static final String REVERSE_GEO_BASE_URL = "http://api.openweathermap.org/geo/1.0/reverse";
 
+  private static final int REQUEST_TIMEOUT = 10; // seconds
+
   private static final HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
 
   private static final ObjectMapper mapper = new ObjectMapper();
@@ -116,12 +118,12 @@ public class WeatherClient {
   private static HttpRequest createHttpRequest(String uri) {
     return HttpRequest.newBuilder()
         .uri(java.net.URI.create(uri))
-        .timeout(java.time.Duration.ofSeconds(10))
+        .timeout(java.time.Duration.ofSeconds(REQUEST_TIMEOUT))
         .build();
   }
 
   // Helper method to send HTTP requests and parse responses
-  public static <T> T sendRequest(HttpRequest request, Class<T> responseType) {
+  public <T> T sendRequest(HttpRequest request, Class<T> responseType) {
     HttpResponse<String> response;
     try {
       response = client.send(request, BodyHandlers.ofString());
