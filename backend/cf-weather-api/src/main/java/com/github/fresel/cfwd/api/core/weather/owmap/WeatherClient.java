@@ -54,7 +54,7 @@ public class WeatherClient {
    * @return WeatherResponse containing current weather data.
    */
   public WeatherResponse getCurrentWeather(String city) {
-    HttpRequest request = creeateHttpRequest(
+    HttpRequest request = createHttpRequest(
         String.format("%s/weather?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey));
     return sendRequest(request, WeatherResponse.class);
   }
@@ -67,7 +67,7 @@ public class WeatherClient {
    * @return WeatherResponse containing current weather data.
    */
   public WeatherResponse getCurrentWeather(Double lat, Double lon) {
-    HttpRequest request = creeateHttpRequest(
+    HttpRequest request = createHttpRequest(
         String.format("%s/weather?lat=%s&lon=%s&appid=%s&units=metric",
             WEATHER_BASE_URL, lat, lon, apiKey));
     return sendRequest(request, WeatherResponse.class);
@@ -80,7 +80,7 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(String city) {
-    HttpRequest request = creeateHttpRequest(
+    HttpRequest request = createHttpRequest(
         String.format("%s/forecast?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey));
     return sendRequest(request, ForecastResponse.class);
   }
@@ -93,7 +93,7 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(Double lat, Double lon) {
-    HttpRequest request = creeateHttpRequest(
+    HttpRequest request = createHttpRequest(
         String.format("%s/forecast?lat=%s&lon=%s&appid=%s&units=metric", WEATHER_BASE_URL, lat, lon, apiKey));
     return sendRequest(request, ForecastResponse.class);
   }
@@ -107,13 +107,13 @@ public class WeatherClient {
    * @return GeoCodingResponse containing city name and other details.
    */
   public GeoCodingResponse getReversedGeoCoding(Double lat, Double lon) {
-    HttpRequest request = creeateHttpRequest(
+    HttpRequest request = createHttpRequest(
         String.format("%s?lat=%s&lon=%s&limit=1&appid=%s", REVERSE_GEO_BASE_URL, lat, lon, apiKey));
     GeoCodingResponse[] responseArray = sendRequest(request, GeoCodingResponse[].class);
     return responseArray[0];
   }
 
-  private static HttpRequest creeateHttpRequest(String uri) {
+  private static HttpRequest createHttpRequest(String uri) {
     return HttpRequest.newBuilder()
         .uri(java.net.URI.create(uri))
         .timeout(java.time.Duration.ofSeconds(10))
