@@ -1,29 +1,36 @@
 package com.github.fresel.cfwd.api.core.weather.owmap;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+
 import lombok.Builder;
 import lombok.NonNull;
 
 /**
  * Client for interacting with the OpenWeatherMap API.
  *
- * This client provides methods to fetch current weather data and weather forecasts based on city
+ * This client provides methods to fetch current weather data and weather
+ * forecasts based on city
  * names.
  *
- * This client also provides methods to fetch current weather data and weather forecasts based on
+ * This client also provides methods to fetch current weather data and weather
+ * forecasts based on
  * latitude and longitude.
  *
- * It uses Java's built-in HttpClient for making HTTP requests and Jackson for JSON parsing.
+ * It uses Java's built-in HttpClient for making HTTP requests and Jackson for
+ * JSON parsing.
  *
- * An API key is required to use this client, which can be obtained by signing up on the
+ * An API key is required to use this client, which can be obtained by signing
+ * up on the
  * OpenWeatherMap website.
  *
- * Note: Ensure to handle exceptions appropriately when using this client, as network issues or
+ * Note: Ensure to handle exceptions appropriately when using this client, as
+ * network issues or
  * invalid responses can occur.
  */
 @Builder
@@ -32,6 +39,10 @@ public class WeatherClient {
   public static final String WEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5";
 
   public static final String REVERSE_GEO_BASE_URL = "http://api.openweathermap.org/geo/1.0/reverse";
+
+  private static final HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
+
+  private static final ObjectMapper mapper = new ObjectMapper();
 
   @NonNull
   private final String apiKey;
@@ -43,10 +54,8 @@ public class WeatherClient {
    * @return WeatherResponse containing current weather data.
    */
   public WeatherResponse getCurrentWeather(String city) {
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI.create(
-            String.format("%s/weather?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey)))
-        .GET().build();
+    HttpRequest request = creeateHttpRequest(
+        String.format("%s/weather?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey));
     return sendRequest(request, WeatherResponse.class);
   }
 
@@ -58,10 +67,9 @@ public class WeatherClient {
    * @return WeatherResponse containing current weather data.
    */
   public WeatherResponse getCurrentWeather(Double lat, Double lon) {
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI.create(String.format("%s/weather?lat=%s&lon=%s&appid=%s&units=metric",
-            WEATHER_BASE_URL, lat, lon, apiKey)))
-        .GET().build();
+    HttpRequest request = creeateHttpRequest(
+        String.format("%s/weather?lat=%s&lon=%s&appid=%s&units=metric",
+            WEATHER_BASE_URL, lat, lon, apiKey));
     return sendRequest(request, WeatherResponse.class);
   }
 
@@ -72,10 +80,8 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(String city) {
-    HttpRequest request = HttpRequest
-        .newBuilder().uri(java.net.URI.create(String
-            .format("%s/forecast?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey)))
-        .GET().build();
+    HttpRequest request = creeateHttpRequest(
+        String.format("%s/forecast?q=%s&appid=%s&units=metric", WEATHER_BASE_URL, city, apiKey));
     return sendRequest(request, ForecastResponse.class);
   }
 
@@ -87,31 +93,35 @@ public class WeatherClient {
    * @return ForecastResponse containing weather forecast data.
    */
   public ForecastResponse getWeatherForecast(Double lat, Double lon) {
-    HttpRequest request = HttpRequest.newBuilder()
-        .uri(java.net.URI.create(String.format("%s/forecast?lat=%s&lon=%s&appid=%s&units=metric",
-            WEATHER_BASE_URL, lat, lon, apiKey)))
-        .GET().build();
+    HttpRequest request = creeateHttpRequest(
+        String.format("%s/forecast?lat=%s&lon=%s&appid=%s&units=metric", WEATHER_BASE_URL, lat, lon, apiKey));
     return sendRequest(request, ForecastResponse.class);
   }
 
   /**
-   * Get city name for the specified latitude and longitude using reverse geocoding.
+   * Get city name for the specified latitude and longitude using reverse
+   * geocoding.
    *
    * @param lat Latitude of the location.
    * @param lon Longitude of the location.
    * @return GeoCodingResponse containing city name and other details.
    */
   public GeoCodingResponse getReversedGeoCoding(Double lat, Double lon) {
-    HttpRequest request = HttpRequest.newBuilder().uri(java.net.URI.create(
-        String.format("%s?lat=%s&lon=%s&limit=1&appid=%s", REVERSE_GEO_BASE_URL, lat, lon, apiKey)))
-        .GET().build();
+    HttpRequest request = creeateHttpRequest(
+        String.format("%s?lat=%s&lon=%s&limit=1&appid=%s", REVERSE_GEO_BASE_URL, lat, lon, apiKey));
     GeoCodingResponse[] responseArray = sendRequest(request, GeoCodingResponse[].class);
     return responseArray[0];
   }
 
+  private static HttpRequest creeateHttpRequest(String uri) {
+    return HttpRequest.newBuilder()
+        .uri(java.net.URI.create(uri))
+        .timeout(java.time.Duration.ofSeconds(10))
+        .build();
+  }
+
   // Helper method to send HTTP requests and parse responses
   public static <T> T sendRequest(HttpRequest request, Class<T> responseType) {
-    HttpClient client = httpClient();
     HttpResponse<String> response;
     try {
       response = client.send(request, BodyHandlers.ofString());
@@ -121,7 +131,6 @@ public class WeatherClient {
     if (response.statusCode() != 200) {
       throw new WeatherClientException("Request failed: " + response.body());
     }
-    var mapper = new ObjectMapper();
     try {
       return mapper.readValue(response.body(), responseType);
     } catch (IOException e) {
@@ -129,7 +138,4 @@ public class WeatherClient {
     }
   }
 
-  private static HttpClient httpClient() {
-    return HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
-  }
 }
