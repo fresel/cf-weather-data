@@ -191,7 +191,12 @@ To build and run the CF Weather Data API using Docker Compose, follow these step
 
 6. The API will be accessible at `http://localhost:8080/api/weather`.
 
-## E2E Testing
+
+## Development
+
+Use the Eclipse formatter configuration in `https://raw.githubusercontent.com/fresel/codestyle/refs/heads/main/eclipse-java-google-style_fresel.xml` for consistent code formatting.
+
+### E2E Testing
 
 E2E testing can be done by using HttpYac.
 See the httpyac [documentation](https://httpyac.github.io/) for more information.
