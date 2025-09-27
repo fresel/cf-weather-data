@@ -1,7 +1,7 @@
 services:
   app:
-    image: fresel72/cf-weather:latest
-    container_name: cf-weather
+    image: ghcr.io/fresel/cf-weather-data:latest
+    container_name: cf-weather-data
     build:
       context: .
       dockerfile: Dockerfile
