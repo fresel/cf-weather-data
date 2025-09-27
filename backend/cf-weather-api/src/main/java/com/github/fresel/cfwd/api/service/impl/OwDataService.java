@@ -9,13 +9,16 @@ import com.github.fresel.cfwd.api.service.CurrentWeather;
 import com.github.fresel.cfwd.api.service.Forecast;
 import com.github.fresel.cfwd.api.service.ForecastDay;
 import com.github.fresel.cfwd.api.service.WeatherDataService;
+
 import java.time.LocalDateTime;
 import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * Implementation of WeatherDataService that fetches weather data from OpenWeatherMap.
+ * Implementation of WeatherDataService that fetches weather data from
+ * OpenWeatherMap.
  */
 @RequiredArgsConstructor
 @Slf4j
@@ -54,8 +57,11 @@ public class OwDataService implements WeatherDataService {
           "Weather information is not available for location: " + locationName);
     }
     var weather = response.getWeather().get(0);
-    return CurrentWeather.builder().dateTime(convertUnixToLocalDateTime(response.getDt()))
-        .location(locationName).temperature(response.getMain().getTemp()).main(weather.getMain())
+    return CurrentWeather.builder()
+        .dateTime(convertUnixToLocalDateTime(response.getDt()))
+        .location(locationName)
+        .temperature(response.getMain().getTemp())
+        .main(weather.getMain())
         .description(weather.getDescription()).build();
   }
 
@@ -66,13 +72,16 @@ public class OwDataService implements WeatherDataService {
           "Weather forecast information is not available for location: " + locationName);
     }
     List<ForecastDay> forecastDays = response.getList().stream().map(day -> {
-      var weather =
-          (day.getWeather() != null && !day.getWeather().isEmpty()) ? day.getWeather().get(0)
-              : null;
-      return ForecastDay.builder().dateTime(convertUnixToLocalDateTime(day.getDt()))
-          .minTemperature(day.getMain().getTempMin()).maxTemperature(day.getMain().getTempMax())
+      var hasWeather = day.getWeather() != null && !day.getWeather().isEmpty();
+      var weather = hasWeather ? day.getWeather().get(0) : null;
+
+      return ForecastDay.builder()
+          .dateTime(convertUnixToLocalDateTime(day.getDt()))
+          .minTemperature(day.getMain().getTempMin())
+          .maxTemperature(day.getMain().getTempMax())
           .main(weather != null ? weather.getMain() : null)
-          .description(weather != null ? weather.getDescription() : null).build();
+          .description(weather != null ? weather.getDescription() : null)
+          .build();
     }).toList();
     return Forecast.builder().location(locationName).forecastDays(forecastDays).build();
   }
