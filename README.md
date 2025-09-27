@@ -7,11 +7,13 @@ CF Weather Data is a REST API service that provides weather information for spec
 ## Table of Contents
 - [Overview](#overview)
 - [Functionality](#functionality)
+- [Running Application](#running-application)
 - [Usage](#usage)
 - [Error Handling](#error-handling)
 - [OpenAPI Documentation](#openapi-documentation)
 - [Technologies Used](#technologies-used)
 - [Setup and Installation](#setup-and-installation)
+- [Development](#development)
 - [E2E Testing](#e2e-testing)
 - [Design](#design)
 - [Future Improvements](#future-improvements)
@@ -26,6 +28,25 @@ Based on the longitude and latitude provided, the API can:
 
 - Get current weather
 - Get a forecast for the next 5 days
+
+## Running Application
+
+The application is containerized using Docker and can be run locally or deployed to a cloud service.
+
+> To run the application, you need to set the environment variable `WEATHER_API_KEY` with your OpenWeatherMap API key.
+
+Run the Docker container with the following command:
+
+```
+docker run -d --rm -p 8080:8080 -e WEATHER_API_KEY=<your_api_key> --name cf-weather ghcr.io/fresel/cf-weather-data:latest
+```
+>Replace `<your_api_key>` with your actual OpenWeatherMap API key.
+
+Run the application using Docker Compose with the following command:
+
+``` bash
+docker compose up
+```
 
 ## Usage
 
@@ -132,6 +153,8 @@ To set up and run the CF Weather Data API locally, follow these steps:
 
 ### Docker
 
+> Note: The Docker image is also available on GitHub Container Registry at `ghcr.io/fresel/cf-weather-data:latest`.
+
 Prerequisites:
 - Docker
 - OpenWeatherMap API key
@@ -156,6 +179,8 @@ To build and run the CF Weather Data API using Docker, follow these steps:
     >You can change the port mapping `-p 8080:8080` to use a different host port if needed. Use the format `-p <host_port>:<container_port>`. E.g., `-p 9090:8080` to map host port 9090 to container port 8080. Then access the API at `http://localhost:9090/api/weather`.
 
 ### Docker Compose
+
+> Note: The Docker image is also available on GitHub Container Registry at `ghcr.io/fresel/cf-weather-data:latest`.
 
 Prerequisites:
 - Docker
