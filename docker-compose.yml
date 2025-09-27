@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/fresel/cf-weather-data:latest
+    image: ${DOCKER_IMAGE:-ghcr.io/fresel/cf-weather-data:latest}
     container_name: cf-weather-data
     build:
       context: .
