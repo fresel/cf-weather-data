@@ -12,7 +12,6 @@ variable "keycloak_url" {
 variable "keycloak_client_id" {
   description = "The Keycloak client ID"
   type        = string
-  default     = "cf-weather-admin"
 }
 
 variable "keycloak_client_secret" {

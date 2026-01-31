@@ -19,7 +19,7 @@ To manage Keycloak resources using Terraform, an admin client must be set up in 
    TF_VAR_keycloak_realm=cf-weather
    TF_VAR_keycloak_url=http://localhost:9180
    ```
-6. In the affected realm, select the management client realm-management, and, in the Roles tab, create a new role called view-system.
+6. In the affected realm, select the management client `realm-management`, and, in the Roles tab, create a new role called view-system. See https://www.keycloak.org/docs/latest/upgrading/index.html#the-serverinfo-endpoint-only-returns-the-system-info-for-administrators-in-the-administrator-realm for more information about the view-system role.
 
 7. In `cf-weather-admin` client, in the Service Account Roles mapping tab, assign the just created view-system client role to the client.
 
